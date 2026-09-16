@@ -371,6 +371,33 @@ const state = {
 };
 ```
 
+다크 모드를 예로 들면 코드가 **세 조각**으로 나뉩니다.
+
+```js
+// ① 이벤트 등록                                         js/main.js L408
+themeToggle.addEventListener('click', toggleTheme);
+
+// ② 이벤트 핸들러: 상태만 바꾸고 렌더를 부른다              js/main.js L74-L78
+const toggleTheme = () => {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';   // 상태 변경
+  localStorage.setItem('theme', state.theme);                // 저장
+  renderTheme();                                             // 화면 갱신
+};
+
+// ③ 렌더 함수: 상태를 읽어 화면에 반영한다                  js/main.js L65-L72
+const renderTheme = () => {
+  root.setAttribute('data-theme', state.theme);
+  themeIcon.textContent = state.theme === 'dark' ? '☀️' : '🌙';
+};
+```
+
+②는 상태를 **쓰기만** 하고 ③은 상태를 **읽기만** 합니다. 역할이 겹치지 않습니다.
+그리고 페이지를 처음 열 때도 [`initTheme()` (L80-L88)](js/main.js#L80-L88)이
+저장값으로 상태를 정한 뒤 **같은 `renderTheme()`** 을 호출합니다.
+화면을 그리는 코드가 한 벌뿐이라 클릭과 초기 로드가 어긋날 일이 없습니다.
+
+같은 방식으로 다섯 가지 흐름을 구성했습니다.
+
 | 이벤트 | 상태 변경 | 렌더링 | 코드 |
 |---|---|---|---|
 | 테마 버튼 click | `state.theme` | `data-theme` 속성 → CSS 변수 교체 → 전체 색상 | [L65-L78](js/main.js#L65-L78) |
