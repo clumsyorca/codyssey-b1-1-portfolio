@@ -1,0 +1,1091 @@
+/* =========================================================
+   이중차분법 노트: style.css
+   모바일 퍼스트로 작성. 브레이크포인트: 768px(태블릿), 1024px(데스크톱)
+   ========================================================= */
+
+/* ---------- 1. 리셋 ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- 2. CSS 변수 (라이트 테마 = 기본값) ---------- */
+:root {
+  /* 색상: 중성 화이트톤. 유채색은 상호작용 요소에만 절제해서 쓴다 */
+  --color-bg:          #ffffff;
+  --color-bg-alt:      #fafafa;
+  --color-surface:     #ffffff;
+  --color-text:        #18181b;
+  --color-text-muted:  #71717a;
+  --color-primary:     #2563eb;
+  --color-primary-dim: #f4f4f5;   /* 파란 틴트 대신 중성 회색 */
+  --color-accent:      #0f766e;
+  --color-border:      #e8e8ea;
+  --color-danger:      #b91c1c;
+  --color-success:     #15803d;
+  --color-header-bg:   rgba(255, 255, 255, 0.88);
+  --color-shadow:      rgba(0, 0, 0, 0.035);
+  --color-shadow-lg:   rgba(0, 0, 0, 0.07);
+
+  /* 타이포그래피 */
+  --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* 간격 */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3.5rem;
+  --space-2xl: 5rem;
+
+  /* 기타 */
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 20px;
+  --transition: 0.3s ease;
+  --header-h: 64px;
+  --max-width: 1120px;
+}
+
+/* ---------- 3. CSS 변수 (다크 테마) ---------- */
+[data-theme="dark"] {
+  --color-bg:          #0f0f11;
+  --color-bg-alt:      #17171a;
+  --color-surface:     #1c1c20;
+  --color-text:        #ededf0;
+  --color-text-muted:  #a1a1aa;
+  --color-primary:     #7aa7ff;
+  --color-primary-dim: #26262b;
+  --color-accent:      #5eead4;
+  --color-border:      #2c2c31;
+  --color-danger:      #fca5a5;
+  --color-success:     #86efac;
+  --color-header-bg:   rgba(15, 15, 17, 0.88);
+  --color-shadow:      rgba(0, 0, 0, 0.4);
+  --color-shadow-lg:   rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- 4. 기본 타이포 ---------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: background-color var(--transition), color var(--transition);
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* 스크린 리더 전용 텍스트 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 키보드 포커스 표시 */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- 5. 레이아웃 공통 ---------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.container-narrow {
+  max-width: 680px;
+}
+
+.section {
+  padding: var(--space-xl) 0;
+  scroll-margin-top: var(--header-h);
+}
+
+.section-alt {
+  background-color: var(--color-bg-alt);
+  transition: background-color var(--transition);
+}
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.section-title {
+  font-size: 1.75rem;
+  margin-bottom: var(--space-sm);
+}
+
+.section-desc {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+  max-width: 60ch;
+}
+
+/* ---------- 6. 버튼 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: transform var(--transition),
+              box-shadow var(--transition),
+              background-color var(--transition),
+              border-color var(--transition),
+              color var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--color-shadow-lg);
+}
+
+.btn-ghost {
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ---------- 7. 헤더 (Flexbox) ---------- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: transparent;
+  transition: background-color var(--transition),
+              box-shadow var(--transition),
+              backdrop-filter var(--transition);
+}
+
+/* 스크롤 60px 이상에서 붙는 클래스 */
+.header.scrolled {
+  background-color: var(--color-header-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 var(--color-border);
+}
+
+.header-inner {
+  display: flex;                    /* ← 네비게이션 Flexbox */
+  align-items: center;
+  justify-content: space-between;   /* 로고 왼쪽, 나머지 오른쪽 */
+  gap: var(--space-md);
+  height: var(--header-h);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.logo-mark {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-dim);
+  color: var(--color-primary);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.logo-text {
+  font-size: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-primary-dim);
+}
+
+/* ---------- 8. 햄버거 버튼 (모바일 기본 표시) ---------- */
+.hamburger {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: var(--radius-sm);
+}
+
+.hamburger-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--color-text);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition);
+}
+
+/* 메뉴가 열렸을 때 X 모양으로 */
+.hamburger.active .hamburger-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active .hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .hamburger-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- 9. 네비게이션 (모바일: 숨김) ---------- */
+.nav-list {
+  display: none;                    /* 모바일에서는 숨긴다 */
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  width: 100%;
+  flex-direction: column;
+  gap: 0;
+  padding: var(--space-sm) var(--space-md) var(--space-lg);
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 2px 10px var(--color-shadow-lg);
+}
+
+/* 햄버거 클릭 시 JS가 붙이는 클래스 */
+.nav-list.active {
+  display: flex;
+}
+
+.nav-link {
+  display: block;
+  padding: var(--space-sm) var(--space-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background-color var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.current {
+  color: var(--color-primary);
+  background-color: var(--color-primary-dim);
+}
+
+/* ---------- 10. Hero ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: calc(var(--header-h) + var(--space-xl)) 0 var(--space-xl);
+  background-color: var(--color-bg);
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.hero-title {
+  font-size: clamp(2rem, 8vw, 3.25rem);
+}
+
+.hero-typing {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  min-height: 1.75em;
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background-color: var(--color-primary);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.hero-desc {
+  max-width: 52ch;
+  color: var(--color-text-muted);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.hero-scroll-hint {
+  position: absolute;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  animation: bob 2s ease-in-out infinite;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.hero-scroll-hint:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50%      { transform: translate(-50%, 8px); }
+}
+
+/* ---------- 11. About ---------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;       /* 모바일: 1열 */
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.about-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.about-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  box-shadow: 0 1px 2px var(--color-shadow);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.about-photo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px var(--color-shadow-lg);
+}
+
+.about-caption {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.about-body p + p {
+  margin-top: var(--space-sm);
+}
+
+.about-points {
+  margin-top: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.about-points li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  align-items: baseline;
+  padding: var(--space-xs) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.point-label {
+  flex-shrink: 0;
+  min-width: 3.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-primary);
+}
+
+.point-text {
+  flex: 1;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- 12. 개념 카드 (Grid) ---------- */
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.concept-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  box-shadow: 0 1px 2px var(--color-shadow);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.concept-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-text-muted);
+  box-shadow: 0 4px 16px var(--color-shadow-lg);
+}
+
+.concept-title {
+  font-size: 1.05rem;
+  margin-bottom: var(--space-xs);
+}
+
+.concept-desc {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.concept-formula {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-alt);
+  color: var(--color-accent);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.section-alt .concept-formula {
+  background-color: var(--color-bg);
+}
+
+/* ---------- 13. 도구 목록 ---------- */
+.tools-title {
+  font-size: 1.15rem;
+  margin-bottom: var(--space-sm);
+}
+
+.tool-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.tool-item {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  font-size: 0.88rem;
+  font-family: var(--font-mono);
+  transition: transform var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.tool-item:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* ---------- 14. 필터 바 (보너스) ---------- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.filter-btn {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.filter-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.filter-btn.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+/* ---------- 15. 프로젝트 카드 (Grid: auto-fit + minmax) ---------- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+  min-height: 220px;
+}
+
+.project-card {
+  display: flex;                    /* 카드 내부는 Flex 세로 배치 */
+  flex-direction: column;
+  gap: var(--space-xs);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  box-shadow: 0 1px 2px var(--color-shadow);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-text-muted);
+  box-shadow: 0 4px 16px var(--color-shadow-lg);
+}
+
+.project-title {
+  font-size: 1.05rem;
+  word-break: break-all;
+}
+
+.project-desc {
+  flex-grow: 1;                     /* 설명 길이가 달라도 하단 정렬 유지 */
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--color-border);
+}
+
+.project-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+}
+
+.project-lang::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+}
+
+.project-link {
+  align-self: flex-start;
+  margin-top: var(--space-xs);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition);
+}
+
+.project-link:hover {
+  border-bottom-color: var(--color-primary);
+}
+
+/* ---------- 16. 상태 UI (로딩 / 에러 / 빈 상태) ---------- */
+.state-box {
+  grid-column: 1 / -1;              /* 그리드 전체 폭 차지 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+}
+
+.state-title {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.state-box.is-error {
+  border-color: var(--color-danger);
+  border-style: solid;
+}
+
+.state-box.is-error .state-title {
+  color: var(--color-danger);
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- 17. 폼 ---------- */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.7;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-dim);
+}
+
+/* 유효성 검사 실패 시 JS가 붙이는 클래스 */
+.field input.invalid,
+.field textarea.invalid {
+  border-color: var(--color-danger);
+}
+
+.error-message {
+  min-height: 1.2rem;
+  font-size: 0.82rem;
+  color: var(--color-danger);
+}
+
+.form-success {
+  min-height: 1.4rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--color-success);
+}
+
+/* ---------- 18. 푸터 ---------- */
+.footer {
+  padding: var(--space-lg) 0;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+  font-size: 0.88rem;
+}
+
+.footer-links a {
+  color: var(--color-text-muted);
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+/* ---------- 19. 스크롤 탑 버튼 ---------- */
+.scroll-top {
+  position: fixed;
+  right: var(--space-md);
+  bottom: var(--space-md);
+  z-index: 90;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  border-radius: 50%;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  box-shadow: 0 2px 10px var(--color-shadow-lg);
+  /* 기본은 숨김. display 대신 opacity를 써야 transition이 먹는다 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+}
+
+/* 스크롤 300px 이상에서 JS가 붙이는 클래스 */
+.scroll-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  transform: translateY(-3px);
+}
+
+/* ---------- 20. 스크롤 등장 애니메이션 ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- 21. 태블릿 (768px 이상) ---------- */
+@media (min-width: 768px) {
+  body {
+    font-size: 1.03rem;
+  }
+
+  .container {
+    padding: 0 var(--space-lg);
+  }
+
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+
+  .section-title {
+    font-size: 2.1rem;
+  }
+
+  /* 데스크톱 메뉴 복원, 햄버거 숨김 */
+  .hamburger {
+    display: none;
+  }
+
+  .nav-list {
+    display: flex;                  /* ← 가로 메뉴로 복귀 */
+    position: static;
+    width: auto;
+    flex-direction: row;
+    gap: var(--space-xs);
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .nav-link {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .header-inner {
+    padding: 0 var(--space-lg);
+  }
+
+  /* About: 사진 | 글 2열 */
+  .about-grid {
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+
+  .about-photo {
+    width: 260px;
+    height: 260px;
+  }
+
+  .hero-typing {
+    font-size: 1.05rem;
+  }
+
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .scroll-top {
+    right: var(--space-lg);
+    bottom: var(--space-lg);
+  }
+}
+
+/* ---------- 22. 데스크톱 (1024px 이상) ---------- */
+@media (min-width: 1024px) {
+  :root {
+    --header-h: 72px;
+  }
+
+  .section-title {
+    font-size: 2.4rem;
+  }
+
+  .logo-text {
+    font-size: 1.08rem;
+  }
+
+  .nav-list {
+    gap: var(--space-sm);
+  }
+
+  .concept-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .about-grid {
+    grid-template-columns: 320px 1fr;
+  }
+
+  .about-photo {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+/* ---------- 23. 접근성: 애니메이션 최소화 설정 존중 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- 25. About 프로필 이미지 ---------- */
+.about-photo {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  padding: 0;
+}
+
+@media (min-width: 1024px) {
+  .about-photo { max-width: 320px; }
+}
+
+
+/* ---------- 26. 기술 스택 카드 ---------- */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+
+.skill-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  box-shadow: 0 1px 2px var(--color-shadow);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.skill-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-text-muted);
+  box-shadow: 0 4px 16px var(--color-shadow-lg);
+}
+
+.skill-title {
+  font-size: 1.05rem;
+  margin-bottom: var(--space-xs);
+}
+
+.skill-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.skill-card .tool-list {
+  gap: 0.4rem;
+}
+
+.skill-card .tool-item {
+  font-size: 0.83rem;
+  padding: 0.3rem 0.7rem;
+}
+
+.section-alt .skill-card .tool-item {
+  background-color: var(--color-bg);
+}

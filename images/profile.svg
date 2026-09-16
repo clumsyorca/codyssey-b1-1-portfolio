@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320"
+     role="img" aria-label="프로필 일러스트레이션">
+  <defs>
+    <clipPath id="round"><rect width="320" height="320" rx="32"/></clipPath>
+  </defs>
+  <g clip-path="url(#round)">
+    <rect width="320" height="320" fill="#f4f4f5"/>
+    <circle cx="160" cy="142" r="100" fill="#ebebee"/>
+    <circle cx="160" cy="132" r="50" fill="#71717a"/>
+    <path d="M 60 320 C 60 250 105 214 160 214 C 215 214 260 250 260 320 Z" fill="#71717a"/>
+    <circle cx="243" cy="70" r="13" fill="#2563eb"/>
+  </g>
+</svg>

@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Chaerin의 데이터 분석 포트폴리오. 인과추론을 공부하며 정리한 이중차분법(Difference-in-Differences) 노트와 프로젝트를 소개합니다.">
+  <title>Chaerin | 데이터 분석 포트폴리오</title>
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="#hero" class="logo">
+        <span class="logo-mark" aria-hidden="true">CY</span>
+        <span class="logo-text">Chaerin</span>
+      </a>
+
+      <nav class="nav" aria-label="주요 메뉴">
+        <ul class="nav-list" id="nav-list">
+          <li><a href="#about" class="nav-link">소개</a></li>
+          <li><a href="#skills" class="nav-link">기술 스택</a></li>
+          <li><a href="#projects" class="nav-link">프로젝트</a></li>
+          <li><a href="#contact" class="nav-link">연락처</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="다크 모드 전환">
+          <span class="theme-icon" id="theme-icon" aria-hidden="true">🌙</span>
+        </button>
+
+        <button class="hamburger" id="hamburger" type="button"
+                aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav-list">
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+          <span class="hamburger-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero">
+      <div class="container hero-inner">
+        <p class="hero-eyebrow">Data Analysis Portfolio</p>
+        <h1 class="hero-title">안녕하세요,<br>Chaerin입니다</h1>
+        <p class="hero-typing" aria-hidden="true">
+          <span id="typing-text"></span><span class="typing-cursor"></span>
+        </p>
+        <p class="sr-only">데이터에서 인과관계를 읽는 방법을 공부하고 기록합니다.</p>
+        <p class="hero-desc">
+          데이터에서 <strong>상관관계</strong>가 아니라 <strong>인과관계</strong>를 읽어내는 방법을
+          공부하고 있습니다. 공부한 내용은 노트로 정리하고, 코드는 저장소에 남깁니다.
+        </p>
+        <div class="hero-actions">
+          <a href="#projects" class="btn btn-primary">프로젝트 보기</a>
+          <a href="#contact" class="btn btn-ghost">연락하기</a>
+        </div>
+      </div>
+      <a href="#about" class="hero-scroll-hint" aria-label="아래로 스크롤">
+        <span aria-hidden="true">&darr;</span>
+      </a>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section class="section" id="about">
+      <div class="container">
+        <p class="section-eyebrow reveal">About</p>
+        <h2 class="section-title reveal">소개</h2>
+
+        <div class="about-grid reveal">
+          <figure class="about-figure">
+            <img src="images/profile.svg"
+                 alt="Chaerin의 프로필 일러스트레이션"
+                 width="320" height="320" class="about-photo">
+            <figcaption class="about-caption">Chaerin &middot; 데이터 분석</figcaption>
+          </figure>
+
+          <div class="about-body">
+            <p>
+              점수를 올리는 것보다 <strong>무엇이 그 점수를 올렸는지</strong> 밝히는 일에
+              관심이 있습니다. 선택할 때마다 무엇과 비교했고 무엇을 잃었는지 수치로 남기려고 합니다.
+            </p>
+            <p>
+              최근에는 뇌파 2채널로 수면 단계를 분류하는 파이프라인을 만들었습니다.
+              축별 제거 실험으로 기여도를 나눠 본 결과 모델 교체가 2.4%p, 입력 설계가 10%p 이상이어서
+              하이퍼파라미터 조정을 멈추고 특징 설계에 시간을 옮겼습니다.
+            </p>
+
+            <ul class="about-points">
+              <li>
+                <span class="point-label">관심</span>
+                <span class="point-text">인과추론, 실험 설계, 재현 가능한 분석 파이프라인</span>
+              </li>
+              <li>
+                <span class="point-label">프로젝트</span>
+                <span class="point-text">뇌파 기반 수면 단계 분류 (macro-F1 85.09%)</span>
+              </li>
+              <li>
+                <span class="point-label">학습</span>
+                <span class="point-text">코디세이 AI 올인원 입학연수과정 수강 중</span>
+              </li>
+              <li>
+                <span class="point-label">방식</span>
+                <span class="point-text">설명할 수 있을 때까지 정리하고, 정리한 것을 코드로 남기기</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== SKILLS ===================== -->
+    <section class="section section-alt" id="skills">
+      <div class="container">
+        <p class="section-eyebrow reveal">Skills</p>
+        <h2 class="section-title reveal">기술 스택</h2>
+        <p class="section-desc reveal">
+          학습과 프로젝트에 사용한 언어와 도구입니다.
+        </p>
+
+        <div class="skill-grid">
+          <article class="skill-card reveal">
+            <h3 class="skill-title">언어</h3>
+            <ul class="tool-list">
+              <li class="tool-item">Python</li>
+              <li class="tool-item">JavaScript</li>
+              <li class="tool-item">HTML5</li>
+              <li class="tool-item">CSS3</li>
+              <li class="tool-item">SQL</li>
+            </ul>
+          </article>
+
+          <article class="skill-card reveal">
+            <h3 class="skill-title">데이터 · 머신러닝</h3>
+            <ul class="tool-list">
+              <li class="tool-item">pandas</li>
+              <li class="tool-item">NumPy</li>
+              <li class="tool-item">scikit-learn</li>
+              <li class="tool-item">CatBoost</li>
+              <li class="tool-item">PyTorch</li>
+              <li class="tool-item">matplotlib</li>
+            </ul>
+          </article>
+
+          <article class="skill-card reveal">
+            <h3 class="skill-title">웹</h3>
+            <ul class="tool-list">
+              <li class="tool-item">시맨틱 마크업</li>
+              <li class="tool-item">Flexbox</li>
+              <li class="tool-item">CSS Grid</li>
+              <li class="tool-item">반응형 웹</li>
+              <li class="tool-item">REST API</li>
+            </ul>
+          </article>
+
+          <article class="skill-card reveal">
+            <h3 class="skill-title">개발 환경</h3>
+            <ul class="tool-list">
+              <li class="tool-item">Git</li>
+              <li class="tool-item">Docker</li>
+              <li class="tool-item">MLflow</li>
+              <li class="tool-item">pytest</li>
+              <li class="tool-item">GitHub Pages</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section class="section" id="projects">
+      <div class="container">
+        <p class="section-eyebrow reveal">Repositories</p>
+        <h2 class="section-title reveal">프로젝트</h2>
+        <p class="section-desc reveal">
+          GitHub API로 제 공개 저장소를 실시간으로 불러옵니다. 언어별로 필터링할 수 있습니다.
+        </p>
+
+        <div class="filter-bar reveal" id="filter-bar" role="group" aria-label="언어별 필터"></div>
+        <div class="projects-grid" id="projects-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="section section-alt" id="contact">
+      <div class="container container-narrow">
+        <p class="section-eyebrow reveal">Contact</p>
+        <h2 class="section-title reveal">연락하기</h2>
+        <p class="section-desc reveal">
+          궁금한 점이나 함께 이야기하고 싶은 주제가 있다면 남겨주세요.
+        </p>
+
+        <form class="contact-form reveal" id="contact-form" novalidate>
+          <div class="field">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="홍길동" autocomplete="name">
+            <p class="error-message" id="name-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+            <p class="error-message" id="email-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label for="message">메시지</label>
+            <textarea id="message" name="message" rows="6" placeholder="어떤 내용이 궁금하신가요?"></textarea>
+            <p class="error-message" id="message-error" role="alert"></p>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">보내기</button>
+          <p class="form-success" id="form-success" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p class="footer-copy">&copy; 2026 Chaerin. 코디세이 AI 올인원 입학연수과정 미션 B1-1.</p>
+      <ul class="footer-links">
+        <li><a href="https://github.com/clumsyorca" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+        <li><a href="#hero">맨 위로</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scroll-top" type="button" aria-label="맨 위로 이동">
+    <span aria-hidden="true">&uarr;</span>
+  </button>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.vscode/
+
+# 인과 그래프 생성 도구 (사이트 실행에는 불필요, 로컬에서만 사용)
+tools/
