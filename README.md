@@ -211,34 +211,65 @@ hamburger.addEventListener('click', toggleMenu);          // ② 할 일을 등�
 
 > 요구: 화살표 함수, 템플릿 리터럴, 구조분해 할당, `map`/`filter`/`forEach`를 활용한다
 
-[카드 생성 함수 (L186-L200)](js/main.js#L186-L200) ·
-[필터 적용 (L202-L206)](js/main.js#L202-L206) ·
-[map으로 렌더링 (L285)](js/main.js#L285)
+아래 네 가지를 썼습니다. 각 항목의 📄 링크를 누르면 실제로 쓰인 코드로 이동합니다.
 
-```js
-const createProjectCard = ({ name, html_url, description, language, stargazers_count }) => `
-  <article class="project-card">...</article>
-`;
+### 구조분해 할당
 
-projectsGrid.innerHTML = visible.map(createProjectCard).join('');
-```
-
-**구조분해 할당**은 객체에서 필요한 값만 꺼내 변수로 만드는 문법입니다.
+객체에서 필요한 값만 꺼내 변수로 만드는 문법입니다.
 GitHub API 응답 하나에는 속성이 80개가 넘는데 카드에 쓰는 것은 6개뿐이라,
 매개변수 자리에서 바로 분해해 `repo.`의 반복을 없앴습니다.
 
-**템플릿 리터럴**(백틱)은 여러 줄 문자열과 `${}` 값 삽입을 지원해
-HTML 덩어리를 문자열 연결 없이 그대로 쓸 수 있습니다.
+📄 [`createProjectCard`의 매개변수 (L186)](js/main.js#L186)
 
-**배열 메서드**는 목록의 개수를 몰라도 전체를 한 줄로 처리하기 위해 씁니다.
-`map`은 각 항목을 다른 형태로 **변환**하고, `filter`는 조건에 맞는 것만 **선별**하며,
-`forEach`는 결과를 남기지 않고 **순회**합니다.
+```js
+const createProjectCard = ({ name, html_url, description, language, stargazers_count }) => ...
+//                          └──── 80개 중 필요한 것만 꺼낸다 ────┘
+```
 
-`map`과 `filter`는 **원본을 바꾸지 않고 새 배열을 돌려줍니다.**
-덕분에 전체 목록은 `state.projects`에 그대로 두고 화면에는 필터를 통과한 것만 그릴 수 있어,
+### 템플릿 리터럴
+
+백틱으로 감싸면 여러 줄 문자열과 `${}` 값 삽입을 함께 쓸 수 있어,
+HTML 덩어리를 문자열 연결(`+`) 없이 그대로 적을 수 있습니다.
+
+📄 [카드 HTML을 만드는 부분 (L186-L199)](js/main.js#L186-L199)
+
+### map · filter · forEach
+
+목록의 개수를 몰라도 전체를 한 줄로 처리하기 위해 씁니다.
+
+| 메서드 | 하는 일 | 이 프로젝트에서 | 코드 |
+|---|---|---|---|
+| `map` | 각 항목을 다른 형태로 **변환** | 저장소 객체 → 카드 HTML | 📄 [L285](js/main.js#L285) |
+| `filter` | 조건에 맞는 것만 **선별** | 포크 제외 / 언어별 필터 | 📄 [L311](js/main.js#L311) · [L205](js/main.js#L205) |
+| `forEach` | 결과를 남기지 않고 **순회** | 메뉴 링크마다 이벤트 연결 | 📄 [L412](js/main.js#L412) |
+
+### 원본을 바꾸지 않는다
+
+`map`과 `filter`는 **원본을 그대로 두고 새 배열을 돌려줍니다.**
+덕분에 전체 목록은 `state.projects`에 창고처럼 보관하고 화면에는 필터를 통과한 것만 그릴 수 있어,
 "전체" 버튼을 눌렀을 때 API를 다시 호출하지 않아도 됩니다.
-`map`의 결과는 문자열 하나가 아니라 문자열 **배열**이라, `join('')`으로 이어붙인 뒤 화면에 넣습니다.
-배열을 그대로 `innerHTML`에 넣으면 항목 사이에 쉼표가 끼어 들어가기 때문입니다.
+
+📄 [필터를 적용해 화면에 보일 목록만 계산 (L202-L206)](js/main.js#L202-L206)
+
+```js
+const getVisibleProjects = () =>
+  state.filter === 'all'
+    ? state.projects                                   // 원본 그대로
+    : state.projects.filter((repo) => ...);            // 걸러낸 새 배열
+```
+
+### join('')
+
+`map`의 결과는 문자열 하나가 아니라 문자열 **배열**입니다.
+배열을 그대로 `innerHTML`에 넣으면 항목 사이에 쉼표가 끼어 들어가므로,
+`join('')`으로 구분자 없이 이어붙인 뒤 화면에 넣습니다.
+
+📄 [map과 join을 이어 쓰는 한 줄 (L285)](js/main.js#L285)
+
+```js
+projectsGrid.innerHTML = visible.map(createProjectCard).join('');
+//                               └ 카드로 변환 ┘      └ 하나로 합침 ┘
+```
 
 ## 8. 비동기 처리와 API 연동
 
