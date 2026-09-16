@@ -17,8 +17,6 @@ HTML5 시맨틱 마크업 · CSS3 (사용자 정의 속성, Flexbox, Grid, 미�
 Vanilla JavaScript (ES6+, `fetch`, `IntersectionObserver`, `localStorage`) ·
 GitHub REST API · Google Fonts · GitHub Pages
 
-React / Vue / jQuery / Bootstrap / Tailwind 등 **외부 프레임워크는 사용하지 않았습니다.**
-
 ---
 
 ## 시작하기
