@@ -218,7 +218,32 @@ hamburger.addEventListener('click', toggleMenu);          // ② 할 일을 등�
 
 > 요구: 화살표 함수, 템플릿 리터럴, 구조분해 할당, `map`/`filter`/`forEach`를 활용한다
 
-아래 네 가지를 썼습니다. 각 항목의 📄 링크를 누르면 실제로 쓰인 코드로 이동합니다.
+### 데이터가 카드가 되기까지
+
+GitHub이 준 데이터가 화면의 카드가 되기까지 **네 단계**를 거칩니다.
+각 단계에서 **데이터의 모양이 어떻게 바뀌는지**가 핵심입니다.
+
+| 단계 | 하는 일 | 코드 | 이 시점의 데이터 |
+|---|---|---|---|
+| ① 받아오기 | JSON을 객체로 변환 | [`await response.json()` (L310)](js/main.js#L310) | 저장소 **객체**가 든 배열<br>`[{name, language, ...}, {...}]` |
+| ② 걸러내기 | 포크한 저장소 제외 | [`data.filter(r => !r.fork)` (L311)](js/main.js#L311) | 같은 형태, **개수만 줄어듦** |
+| ③ 변환하기 | 객체를 카드 HTML로 | [`visible.map(createProjectCard)` (L285)](js/main.js#L285) | **문자열**이 든 배열<br>`['<article>…</article>', '<article>…</article>']` |
+| ④ 합쳐 넣기 | 배열을 문자열 하나로 | [`.join('')` → `innerHTML` (L285)](js/main.js#L285) | 문자열 하나<br>`'<article>…</article><article>…</article>'` |
+
+```js
+projectsGrid.innerHTML = visible.map(createProjectCard).join('');
+//                       └─── ③ 변환 ───┘ └─ ④ 합침 ─┘ └ 화면에 삽입 ┘
+```
+
+**②와 ③의 차이**가 이 표의 요점입니다.
+`filter`는 **개수**를 바꾸고 모양은 그대로 두며, `map`은 **모양**을 바꾸고 개수는 그대로 둡니다.
+그래서 ②까지는 여전히 객체 배열이고, ③을 지나면 문자열 배열이 됩니다.
+
+④에서 `join('')`이 필요한 이유도 여기 있습니다.
+③의 결과는 문자열 **하나**가 아니라 문자열 **배열**이라,
+그대로 `innerHTML`에 넣으면 카드 사이에 쉼표가 들어갑니다.
+
+이 과정에 쓴 문법은 다음 네 가지입니다. 각 항목의 📄 링크를 누르면 실제 코드로 이동합니다.
 
 ### 구조분해 할당
 
