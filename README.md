@@ -299,15 +299,50 @@ GitHub API 응답은 빠르면 0.3초, 느리면 몇 초가 걸립니다.
 기다리는 동안에도 **브라우저는 멈추지 않고** 다른 일을 계속합니다.
 `await`를 쓰려면 함수에 `async`를 붙여야 합니다.
 
-📄 [`async` 함수 안에서 두 번 `await` 하는 부분 (L291-L313)](js/main.js#L291-L313)
+### 성공과 실패 분기
+
+📄 [`fetchProjects` 전체 (L291-L330)](js/main.js#L291-L330)
 
 ```js
-const fetchProjects = async () => {          // async를 붙여야 await를 쓸 수 있다
-  const response = await fetch(API_URL);     // ① 응답이 올 때까지 기다린다
-  const data = await response.json();        // ② 본문을 다 읽을 때까지 기다린다
+const fetchProjects = async () => {                 // js/main.js L291
+  state.status = 'loading';                          // ① 먼저 로딩 화면
+  renderProjects();
+
+  try {
+    const response = await fetch(API_URL);           // ② 응답을 기다림
+
+    if (!response.ok) {                              // ③ 상태 코드 직접 확인
+      if (response.status === 403) throw new Error('호출 한도를 초과했습니다. (403)');
+      if (response.status === 404) throw new Error('사용자를 찾을 수 없습니다. (404)');
+      throw new Error(`요청 실패 (HTTP ${response.status})`);
+    }
+
+    const data = await response.json();              // ④ 본문을 객체로
+    const repos = data.filter((repo) => !repo.fork);
+
+    if (repos.length === 0) state.status = 'empty';  // ⑤ 빈 상태
+    else { state.projects = repos; state.status = 'success'; }
+
+  } catch (error) {                                  // ⑥ 실패는 전부 여기로
+    state.status = 'error';
+    state.errorMessage = error.message;
+  }
+
+  renderProjects();                                  // ⑦ 최종 상태를 그림
+};
 ```
 
-`await`가 두 번인 이유는 기다리는 대상이 둘이기 때문입니다.
+**분기는 두 단계입니다.**
+
+1. **성공과 실패** &mdash; `try` 블록을 끝까지 통과하면 성공,
+   중간에 `throw`가 일어나면 ⑥의 `catch`로 넘어갑니다
+2. **성공 안에서 다시** &mdash; 걸러낸 배열이 비었으면 `empty`, 항목이 있으면 `success`
+
+결과적으로 `state.status`가 네 값 중 하나로 정해지고,
+⑦의 `renderProjects()`가 그 값에 따라 네 화면 중 하나를 그립니다.
+**요청을 보내기 전(①)과 끝난 뒤(⑦) 두 번만 렌더를 호출**하므로 화면 갱신 지점이 명확합니다.
+
+`await`가 두 번(②④)인 이유는 **기다리는 대상이 둘**이기 때문입니다.
 먼저 서버 응답이 도착하기를 기다리고, 그다음 응답 본문을 전부 읽어 객체로 바꾸기를 기다립니다.
 
 | 상태 | 화면 | 코드 |
